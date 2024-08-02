@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Weather Monitor</title>
+</head>
+<body>
+    <div class="container">
+        <div class="strip">
+            <img src="./assets/01.png" alt="-" class="img">
+            <div class="grp">
+                <img src="./assets/BC.png" alt="-" class="bc">
+                <img src="./assets/cuny.png" alt="-" class="bc">
+            </div>
+        </div>
+        <div style="padding: 20px">
+            <p class="main-title">Vignan's IIT(A) - Vizag - Weather Monitoring System</p>
+            <p class="main-sub">Live data is currently being monitored and visualized at Vignan's institute of Information and Technology (A).</p>
+            <div class="navigation" id="navigation">
+                <span class="link sel">Live Forecast</span>
+                <span class="link">Blog</span>
+                <a href="/history" class="link">History</a>
+                <a class="link" id="auth"></a>
+
+                <!-- here it should check for the /user route with localstorage.getitem(token) -->
+                <!-- <button id="admin" class="link" style="border: none;">Admin Panel</button> -->
+            </div>
+            <div id="weather-render">
+                <div class="flx">
+                    <div class="graph-container">
+                        <p class="title">Temperature Graph</p>
+                        <p class="sub">Vignan's Weather link</p>
+                        <div class="graph">
+                            <div class="sd-labs">
+                                <p class="lab">50℃</p>
+                                <p class="lab">40℃</p>
+                                <p class="lab">30℃</p>
+                                <p class="lab">20℃</p>
+                                <p class="lab">10℃</p>
+                                <p class="lab">0℃</p>
+                            </div>
+                            <div class="graphs">
+                                <div class="bars" id="temp">
+                                </div>
+                                <div class="labs">
+                                    <p class="lab">Temp</p>  
+                                    <p class="lab">Wind Chill</p>
+                                    <p class="lab">Heat Index</p>
+                                    <p class="lab">Dew point</p>
+                                    <p class="lab">Wet Bulb</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="acc-container">
+                        <div>
+                            <p class="title">Wind Direction</p>
+                            <p class="sub">Vignan's Weather link</p>
+                        </div>
+                        <div class="flow" id="flow">
+                            <div class="dir hor">
+                                <p class="lb tp">E</p>
+                                <p class="lb bt">W</p>
+                            </div>
+                            <div class="dir ver">
+                                <p class="lb tp">N</p>
+                                <p class="lb bt">S</p>
+                            </div>
+                            <div class="dir dia1">
+                                <p class="lb tp">NE</p>
+                                <p class="lb bt">SW</p>
+                            </div>
+                            <div class="dir dia2">
+                                <p class="lb tp">NW</p>
+                                <p class="lb bt">SE</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-container" style="min-width: max-content;padding-right: 40px;">
+                        <p class="title">Total Rainfall</p>
+                        <p class="sub">Vignan's Weather link</p>
+                        <div class="graph">
+                            <div class="sd-labs">
+                                <p class="lab">200mm</p>
+                                <p class="lab">100mm</p>
+                                <p class="lab">0mm</p>
+                            </div>
+                            <div class="graphs">
+                                <div class="bars" id="rain" style="grid-template-columns: repeat(2, 1fr);">
+                                </div>
+                                <div class="labs">
+                                    <p class="lab">Monthly</p>  
+                                    <p class="lab">Yearly</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-container bm">
+                        <p class="title">Barometer</p>
+                        <p class="sub">Vignan's Weather link</p>
+                        <div class="graph">
+                            <div class="sd-labs">
+                                <p class="lab">50psi</p>
+                                <p class="lab">45psi</p>
+                                <p class="lab">40psi</p>
+                                <p class="lab">35psi</p>
+                                <p class="lab">30psi</p>
+                                <p class="lab">25psi</p>
+                                <p class="lab">20psi</p>
+                                <p class="lab">15psi</p>
+                                <p class="lab">10psi</p>
+                                <p class="lab">0psi</p>
+                            </div>
+                            <div class="graphs">
+                                <div class="bars" style="gap: 0;" id="barometer">
+                                </div>
+                                <div class="labs" style="gap:0; padding-top: 10px;">
+                                    <p class="lab" style="width: 50px;">10pm</p>  
+                                    <p class="lab" style="width: 50px;">11pm</p>  
+                                    <p class="lab" style="width: 50px;">12pm</p>  
+                                    <p class="lab" style="width: 50px;">01am</p>  
+                                    <p class="lab" style="width: 50px;">02am</p>  
+                                    <p class="lab" style="width: 50px;">10pm</p>  
+                                    <p class="lab" style="width: 50px;">11pm</p>  
+                                    <p class="lab" style="width: 50px;">12pm</p>  
+                                    <p class="lab" style="width: 50px;">01am</p>  
+                                    <p class="lab" style="width: 50px;">02am</p>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph-container" style="min-width: max-content;padding-right: 40px;">
+                        <p class="title">Air Quality Index</p>
+                        <p class="sub">Vignan's Weather link</p>
+                        <div class="graph">
+                            <div class="sd-labs">
+                                <p class="lab">50,0</p>
+                                <p class="lab">25,0</p>
+                                <p class="lab">0,0</p>
+                            </div>
+                            <div class="graphs">
+                                <div class="bars" id="aq" style="grid-template-columns: repeat(3, 1fr);">
+                                </div>
+                                <div class="labs">
+                                    <p class="lab">Current AQI</p>  
+                                    <p class="lab">1Hour AQI</p>  
+                                    <p class="lab">NowCast AQI</p>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="acc-container">
+                        <div>
+                            <p class="title">Current Humidity</p>
+                            <p class="sub">Vignan's Weather link</p>
+                        </div>
+                        <div class="accelerometer" id="humidity">
+                            <div class="outer-ring">
+                                <div class="inner-ring" style="--per: 320deg">
+                                </div>
+                                <p class="label">
+                                    Humidity measured in %
+                                </p>
+                            </div>
+                            <p class="speed" style="margin-top: 20px; color: var(--txt)">90%</p>
+                        </div>
+                    </div>
+                    <div class="acc-container">
+                        <div>
+                            <p class="title">Wind Speed</p>
+                            <p class="sub">Vignan's Weather link</p>
+                        </div>
+                        <div class="accelerometer" id="windspeed">
+                            <div class="outer-ring">
+                                <div class="inner-ring" style="--per: 180deg">
+                                </div>
+                                <p class="label">
+                                    Current wind speed monitor
+                                </p>
+                            </div>
+                            <p class="speed" style="margin-top: 20px; color: var(--txt)">0 km/h</p>
+                        </div>
+                    </div>
+                    <div class="acc-container">
+                        <div>
+                            <p class="title">THSW Index</p>
+                            <p class="sub">Vignan's Weather link</p>
+                        </div>
+                        <div class="accelerometer" id="thsw">
+                            <div class="outer-ring">
+                                <div class="inner-ring" style="--per: 180deg">
+                                </div>
+                                <p class="label">
+                                    Current thsw index monitor
+                                </p>
+                            </div>
+                            <p class="speed" style="margin-top: 20px; color: var(--txt)">0 km/h</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="rrGrid" id="filter">
+                    <div class="tab-col">
+                        <p class="main-title" style="margin-top: 40px; margin-bottom: 10px; font-size:15px">Vignan's WMS - Regular</p>
+                        <table class="table" id="prim">
+                            <tr class="row">
+                                <th class="head">Parameter</th>
+                                <th class="head">Current</th>
+                                <th class="head">Highest</th>
+                                <th class="head">Lowest</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="display: flex; flex-direction: column;">
+                        <div class="tab-col">
+                            <p class="main-title" style="margin-top: 40px; margin-bottom: 10px; font-size:15px">Vignan's WMS - Wind Data</p>
+                            <table class="table" id="windTab">
+                                <tr class="row">
+                                    <th class="head">Wind</th>
+                                    <th class="head">2 minutes</th>
+                                    <th class="head">10 minutes</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tab-col">
+                            <p class="main-title" style="margin-top: 40px; margin-bottom: 10px; font-size:15px">Vignan's WMS - Air Quality Index</p>
+                            <table class="table" id="aqi">
+                                <tr class="row">
+                                    <th class="head">AQI</th>
+                                    <th class="head">1 Hour</th>
+                                    <th class="head">Now Cast</th>
+                                    <th class="head">24 Hour</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blog" id="blog">
+                <div class="center">
+                    <p class="main-title t">Solar Powered Weather Station for Weather Monitoring System (WMS) At VIGNAN’s IIT (A)</p>
+                    <p class="main-date t">~23 Nov, 2022</p>
+                    <p class="main-blg">The Solar Powered Weather Station was installed on November 23, 2022, at Environmental Sciences wing, Vignan’s Institute of Information Technology (A) in conjunction with City University of New York (CUNY). In the process of  a chairman from Vignan's group, Dr. Lavu Rattaiah Garu, and President Bronx Community Dr Thomas Isekenegbe who was also the person in charge of the installation. The MOU was also signed on the occasion by two institution Heads, As a part of the memorandum of understanding (MoU) weather station was sponsored by the CUNY, USA</p>
+                    <p class="main-blg">The installation of the weather station commenced at 11:00 am at Vignan, accompanied by a formal ceremony when the Solar Powered Weather Station was inaugurated by Honorable Rector Prof. V Madhusudhana Rao and Principal Dr B Arundati. Prof Neal Philip and Prof Paramita Sen, Dr Shakila Merchant. Dr Tarendra Lakhankar and Dr Reza Khanbilvardi together with department heads, faculty members, and students from Vignan and other schools in the vicinity, attended the event.</p>
+                    <div class="row">
+                        <img src="./assets/CHAIRMAN SIR.jpg" alt="" class="dp">
+                        <p class="main-blg" style="margin-top: 0;">The chairman of Vignan Group Dr. Lavu Rattaiaha expressed words of happiness about the installation of weather station by CUNY team, he conveyed sincere thanks to the president Dr Thomas Isekenegbe, CUNY  for choosing Vignan, Vizag campus, he assured the CUNY team for collaboration works between Vignan and CUNY </p>
+                    </div>
+                    <div class="row">
+                        <img src="./assets/THOMAS.png" alt="" class="dp">
+                        <p class="main-blg">The president Bronx Community Dr Thomas Isekenegbe over whelmed with the hospitality extended by Vignan and expressed his gratitude with the chairman of Vignan group and promised that the team from CUNY would be always come forward any kind of collaborations.</p>
+                    </div>
+                    <div class="row">
+                        <img src="./assets/RECTOR SIR.jpg" alt="" class="dp">
+                        <p class="main-blg">While addressing the Rector of the institute Dr V Madhusudhana Rao, thanked the CUNY team for choosing VIIT (A) for establishing the weather station, he added by saying the installation of the weather staion is a unique in the state of Andhra Pradesh, He informed the faculty and students thet the data obtained from the weather station could be used mu;tiple way for forecasting various parameters and making prediction studies. </p>
+                    </div>
+                    <div class="row">
+                        <img src="./assets/arundathi.png" alt="" class="dp">
+                        <p class="main-blg">Dr. B Arundati, Principal,Vignan IIT (A) welcomed Honorable Special Guest, President Bronx Community Dr ThomaIsekenegbe and principal Investigators Prof. Neal Philip, Prof Paramita Sen from the City University of New York and requested them to share their valuable insights with audience. And share about the role of collaboration for the benefit of the research in vignan.</p>
+                    </div>
+                    <div class="row">
+                        <img src="./assets/philip.png" alt="" class="dp">
+                        <p class="main-blg">Prof. Neal Philip explained that the weather statio generates real time data and reports of relative temperature, wind speed, wind direction, relative humidity, Ultravoilet radiation, rainfall collector, air quality, pollution level, solar radiation and carbon dioxide levels, which can be accessed from anywhere.He showed his interests for more collaborative researchwithIn his address to the gathering, also shares an overview of ongoing research work on climate change at Bronx Community College (BCC), CUNY and future collaboration with Vignan IIT (A).</p>
+                    </div>
+                    <div class="row">
+                        <img src="./assets/paramita.png" alt="" class="dp">
+                        <p class="main-blg">Dr Paramita Sen, Professor BCC, CUNY, She showed his interests for more collaborative research with Vignan IIT(A), Vizag and expressed her happiness for witnessing this event and congratulated everyone for having a start of new year with this special occasion which is academically important for students, faculties and society. Also demonstrated Fuel cell car and expressed the importance of fuel cell in transportation sector to control the pollution and save the traditional fuels for future generation</p>
+                    </div>
+                    <p class="main-blg">During an interactive session, students from Vignan and CUNY expressed their views about the newly installed weather station which can stimulate new research ideas in them and can be used to develop projects in the field of climate and climate change to help the local community. Students were excited about this promising academic collaboration between the two countries.</p>
+                    <p class="main-blg">The Vote of thanks was given by Mr. Yogesh Sambhana and Dr. Sirisha. K to conclude the inaugural session. </p>
+                    <div class="images">
+                        <img src="./assets/img1.jpeg" alt="-" class="img">
+                        <img src="./assets/img2.jpeg" alt="-" class="img">
+                        <img src="./assets/img3.jpeg" alt="-" class="img">
+                        <img src="./assets/img4.jpeg" alt="-" class="img">
+                        <img src="./assets/img5.jpeg" alt="-" class="img">
+                        <img src="./assets/img6.jpeg" alt="-" class="img">
+                    </div>
+                    <p class="link">
+                        <span>Our Memorandum of understanding with CUNY: </span> <a href="./assets/CUNY_MOU.pdf" download="CUNY MOU.pdf" class="h">http://vignaniit.edu.in/mou-download</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="col">
+                <!-- <img src="./assets/01.png" alt="-" class="img"> -->
+                <p class="ftitle" style="margin-bottom: 5px; font-size: 20px; font-weight: 800;">Vignan X BCC X CUNY</p>
+                <p class="ftitle">Vignan's IIT(A) - Vizag - Weather Monitoring System</p>
+                <p class="sub">A weather monitoring system for multi-purpose applications with historic data.</p>
+            </div>
+            <div class="col">
+                <p class="ftitle">Usefull links</p>
+                <a href="#" class="link">Data Visualizations</a>
+                <a href="#filter" class="link">Download Data</a>
+                <a href="#filter" class="link">Privacy Policy</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Sponsors</p>
+                <a href="https://www.bcc.cuny.edu/" class="link">Bronx Community College</a>
+                <a href="https://www.cuny.edu/" class="link">The City university of New York</a>
+                <a href="/" class="link">Weather Link Live</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Developers</p>
+                <a href="#" class="link">Chandra Sidhardha Baggu(AI&DS)</a>
+                <a href="#" class="link">Miazur Rahman Mohmmad(AI&DS)</a>
+                <a href="#" class="link">Narendra Neeraj Konada (AI&DS)</a>
+                <a href="#" class="link">Druva Tarak Karri(AI&DS)</a>
+                <a href="#" class="link">Vishnu Vardhan Rongali(AI&DS)</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Contact us</p>
+                <textarea name="-" placeholder="Your Feedback..." class="txtArea" rows="5"></textarea>
+                <div class="row">
+                    <input type="email" class="inp" placeholder="Your Email">
+                    <button class="btn">Send</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+
+    <!-- weather dashboard script  -->
+    <script>
+        // document.getElementById("admin").onclick = () => {window.location.href="/users"}
+        const getBarometerData = async(currentDate) => {
+            console.log(currentDate)
+            try {
+                const response = await axios.get(
+                    `http://viit-weather.ddns.net:5000/api/weather?start_date=${currentDate}&start_time=00:00&end_date=${currentDate}&end_time=23:00`, 
+                    { crossDomain: true }
+                );
+
+
+                weatherData = response.data;
+                var current_time = parseInt((new Date()).toTimeString().split(" ")[0].split(":").splice(0, 1)[0]); 
+                let time_stamps = [];
+                let time_hrs = [];
+                let response_data = [];
+                let sel_time = current_time;
+                
+                for(let i=0; i<10; i++){
+                    time_hrs.push(current_time.toString())
+                    let temp_time = current_time + ":00"; 
+                    time_stamps.push(temp_time);
+                    current_time = current_time-1;
+                }
+
+                response.data.forEach((data, i) => {
+                    let time = data.station_info.time;
+                    let val = data.barometric.bar_absolute;
+                    if(time_hrs.includes(time.split(":")[0])){
+                        response_data.push({val: val, time: time.split(":")[0]});
+                    }
+                });
+
+                let pre_final_data = [];
+                console.log(time_stamps, time_hrs, response_data);
+
+                time_hrs.forEach((time) => {
+                    let count = 0;
+                    for(let i=0; i<response_data.length; i++){
+                        if(response_data[i].time == time){
+                            count += 1;
+                        }else{
+                            break;
+                        }
+                    }
+                    console.log(count);
+                })
+
+
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        window.addEventListener("load", () => {
+            const currentDate = (new Date()).toISOString().split("T")[0];
+            getBarometerData(currentDate);
+        });
+
+        const getCurrentData = async() => {
+            try {
+                fetch("/api/current",{
+                    method: "GET",
+                    headers: {
+                        contentType: "Application/json"
+                    }
+                }).then(resp => resp.json().then((data) => {
+                    const d = data.data;
+                    console.log(d)
+
+                    const temp = [d.temp.temp_1, d.temp.wind_chill, 35, d.temp.wet_bulb_1, d.temp.dew_point_1].map((temps) => {
+                        return Math.round((temps * 200)/100)
+                    });
+
+                    const aqData = [d.airQuality.currentAQI, d.airQuality.aqi_1hour, d.airQuality.aqi_nowcast].map((AQ) => {
+                        return Math.round((AQ * 200)/100)
+                    });
+                    
+                    const rainData = [d.rain.month, d.rain.year].map((AQ) => {
+                            const percentage = (AQ / 200) * 100; 
+                            return percentage;
+                    });
+
+                    renderBarGraph("temp",temp);
+                    renderBarGraph("rain", rainData);
+                    renderBarGraph("aq", aqData);
+                    windAtribs(d.wind.speed, d.wind.direction)
+                    setHumidity(d.humidity.outside);
+                    setTHSW(d.thswIndex);
+
+                    //table parameters
+                    createRow("prim", ["Temperature", d.temp.temp_1, d.temp.temp_highest, d.temp.temp_lowest])
+                    createRow("prim", ["Windchill", d.temp.wind_chill, "-", "-"])
+                    createRow("prim", ["Wet Bulb", d.temp.wet_bulb_1, "-", "-"])
+                    createRow("prim", ["Dew Point", d.temp.dew_point_1, "-", "-"])
+                    createRow("prim", ["Wind speed", d.wind.speed.current+"kmph", d.wind.speed.high+"kmph", "-"])
+                    createRow("prim", ["Humidity", d.humidity.outside+"%", "-", "-"])
+                    createRow("prim", ["UV", d.uvIndex, "-", "-"])
+                    createRow("prim", ["Wind Direction", d.wind.direction+"°", "-", "-"])
+                    createRow("prim", ["Air quality Index", d.airQuality.currentAQI, "-", "-"])
+                    createRow("prim", ["Particulate Matter", d.airQuality.particulateMatter.pm1, "-", "-"])
+                    createRow("prim", ["Solar Radiation", d.solarRadiation, "-", "-"])
+                    
+                    //wind params
+                    createRow("windTab", ["Avg Wind speed", d.wind.avg_2min+"kmph", d.wind.avg_10min+"kmph"])
+                    
+                    //aqi
+                    createRow("aqi", ["Air Quality Index", (d.airQuality.aqi_1hour).toFixed(2)+"kmph", (d.airQuality.aqi_nowcast).toFixed(2)+"kmph", (d.airQuality.aqi_24hour).toFixed(2)+"kmph"])
+
+                }))    
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        function renderBarGraph (id, data) {
+            const parent = document.getElementById(id);
+            data.map(d => {
+                
+                const bar = document.createElement("div");
+                bar.classList.add("bar");
+    
+                const level = document.createElement("div");
+                level.classList.add("level");
+                level.style.height = d + "%";
+
+                bar.appendChild(level);
+                parent.appendChild(bar);
+            })
+        }
+
+        function calculateDistance(p1, p2) {
+            return Math.sqrt(Math.pow(p1, 2) + Math.pow(p2, 2));
+        }
+
+        function calculateAngle(width, height) {
+            return 360 - (Math.atan2(height, width) * (180 / Math.PI));
+        }
+
+        function renderBarometer () {
+            let data = [0, 50, 22, 100, 70, 0, 50, 22, 98, 70]
+            const barometer = document.getElementById("barometer");
+            barometer.style.gridTemplateColumns =  `repeat(${data.length}, 1fr)`
+            data.map((data_point, i) => {
+                const bar = document.createElement("div");
+                bar.classList.add("bar");
+                bar.style.width = "50px"
+                const point = document.createElement("div");
+                point.classList.add("point");
+
+                if(i < data.length-1){
+                    const line = document.createElement("div");
+                    line.classList.add("line");
+                    point.appendChild(line);
+                }
+
+                point.style.setProperty("--level", data_point + "%");
+                bar.appendChild(point);
+                barometer.appendChild(bar)
+            });
+            const bars = barometer.querySelectorAll(".bar");
+            for(let i=0; i<bars.length-1; i++){
+
+                let y1 = (data[i] * 200) / 100;
+                let y2 = (data[i+1] * 200) / 100;
+
+                let p1 = 50;
+                let p2 = (y1 - y2) > 0 ? (y1 - y2) : (y2 - y1);
+
+                let distance = calculateDistance(p1, p2);
+                let angle = calculateAngle(p1, p2);
+
+                let line = document.getElementsByClassName("line")[i];
+                line.style.setProperty("--width", distance + "px");
+
+                (y1 - y2) > 0 ? line.style.setProperty("--deg", -angle + "deg") : line.style.setProperty("--deg", angle + "deg")
+
+            }
+        }
+        
+        function setWindFlow(startDeg, endDeg) {
+            if (startDeg < 0 || endDeg > 360 || startDeg >= endDeg) {
+                console.error('Invalid degree values');
+                return;
+            }
+            
+            const gradientCSS = `repeating-conic-gradient(
+                #fff 0deg ${startDeg}deg,
+                #1576ff ${startDeg}deg ${endDeg}deg,
+                #fff ${endDeg}deg 360deg
+            )`;
+            
+            document.getElementById('flow').style.backgroundImage = gradientCSS;
+        };
+
+        function windAtribs(speed, direction){
+            const speedElem = document.getElementById("windspeed");
+            const level = speedElem.getElementsByClassName("inner-ring")[0];
+            const tag = speedElem.getElementsByClassName("speed")[0];
+
+            tag.textContent = speed.current + "km/h";
+            const lev = ((speed.current/20)*100)+180;
+            level.style.setProperty("--per", lev+"deg")
+
+            setWindFlow(parseInt(direction), parseInt(direction)+20); 
+        }
+
+        function setTHSW(value){
+            const speedElem = document.getElementById("thsw");
+            const level = speedElem.getElementsByClassName("inner-ring")[0];
+            const tag = speedElem.getElementsByClassName("speed")[0];
+            tag.textContent = value + "°C";
+            const perct = (value/50)*100
+            const lev = ((perct/100)*180)+180;
+            level.style.setProperty("--per", lev+"deg")
+        }
+
+        function setHumidity(humidity){
+            const speedElem = document.getElementById("humidity");
+            const level = speedElem.getElementsByClassName("inner-ring")[0];
+            const tag = speedElem.getElementsByClassName("speed")[0];
+            tag.textContent = humidity + "%";
+            const lev = ((humidity/100)*180)+180;
+            level.style.setProperty("--per", lev+"deg")
+        }
+
+        function createRow(id, data) {
+            const table = document.getElementById(id);
+            const row = document.createElement("tr");
+            row.classList.add("row");
+            data.map((item) => {
+                const td = document.createElement("td");
+                td.classList.add("data");
+                td.textContent = item;
+                row.appendChild(td);
+            });
+            table.appendChild(row);
+        }
+
+        getCurrentData();
+        renderBarometer();
+    </script>
+
+    <!-- navigation -->
+    <script>
+        const navigation = document.getElementById("navigation");
+        const dashboard = document.getElementById("weather-render");
+        const blog = document.getElementById("blog")
+        const links = navigation.querySelectorAll(".link");
+
+        const auth = document.getElementById("auth");
+        const token = window.localStorage.getItem("token");
+        if(token == null || token == "-"){
+            auth.setAttribute("href", "/login");
+            auth.textContent = "Login"
+        }else{
+            auth.textContent = "Logout";
+            auth.onclick = () => {
+                window.localStorage.removeItem("token");
+                setTimeout(() => {
+                    window.location.href = "/login"
+                }, 1000)
+            }
+        }
+
+
+        links.forEach((link) => {
+            link.addEventListener("click", (e) => {
+                links.forEach((l) => l.classList.remove("sel"))
+                const selected = e.target.textContent;
+                link.classList.add("sel");
+
+                switch (selected.toLowerCase()) {
+                    case "blog":
+                        dashboard.style.display = "none";
+                        blog.style.display = "flex";
+                        break;
+                    
+                    case "live forecast":
+                        blog.style.display = "none";
+                        dashboard.style.display = "grid";
+                        break;
+                
+                    case "download":
+                        blog.style.display = "none";
+                        dashboard.style.display = "grid";
+                        break;
+                
+                    default:
+                        break;
+                }
+            })
+        })
+    </script>
+</body>
+</html>

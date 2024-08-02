@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --bg-col: #fff;
+    --bdy-col: #f8f8f8;
+    --txt: #000;
+    --sub: #202020;
+    --graph: #e8e8e8;
+}
+
+body {
+    background-color: var(--bdy-col)
+}
+
+.container {
+    background-color: var(--bdy-col);
+    height: max-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container .strip {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+    display: flex;
+    background-color: white;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.container .strip .grp {
+    width: max-content;
+    height: 100%;
+    display: flex;
+    gap: 50px;
+    padding-right: 50px;
+}
+
+.container .img {
+    width: auto;
+    height: 100%;
+}
+
+.container .bc {
+    width: auto;
+    height: 100%;
+    padding: 20px 0;
+}
+
+.container .filters .main-title {
+    font-family: "Public Sans";
+    color: var(--txt);
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.container .main-sub {
+    font-family: "Public Sans";
+    color: var(--sub);
+    font-weight: 400;
+    font-size: 12px;
+    margin-bottom: 20px;
+
+}
+
+.filters {
+    width: 30%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: max-content 1fr;
+}
+
+.filters .filter { 
+    width: 100%;
+    height: max-content;
+    background-color: var(--bg-col);
+    border: 1px solid var(--graph);
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.filters .filter .wrap {
+    margin-bottom: 15px;
+}
+
+.filters .filter .sub{
+    font-family: "Public Sans";
+    font-size: 12px;
+    color: red;
+}
+
+.filters .filter .wrap .lab {
+    font-family: "Public Sans";
+    color: var(--txt);
+    font-size: 12px;
+}
+
+.filters .filter .wrap .inp {
+    width: 100%;
+    height: 40px;
+    background-color: var(--bdy-col);
+    border-radius: 5px;
+    border: 1px solid var(--graph);
+    outline: none;
+    padding: 0 10px;
+    font-family: "Public Sans";
+    color: var(--txt);
+    margin-top: 5px;
+}
+
+.filters .filter .wrap .inp.err{
+    border: 2px solid #ff8080;
+    background: #ff0a0a1c;
+    color: #000;
+}
+
+.filters .filter .btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-family: "Public Sans";
+    color: white;
+    margin: 5px 0;
+    margin-top: 15px;
+    background: #6f6fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.filters .filter .btn .circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border-right: 3px solid white;
+    border-top: 3px solid white;
+    animation: load 0.5s ease-out infinite;
+}
+
+@keyframes load {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.filters .filter .btn.sec {
+    margin-top: 10px;
+    color: var(--sub);
+    background: var(--graph);
+}
+
+.btn .loading{
+    width: 30px;
+    height: 30px;
+    background-image: conic-gradient( white 0deg,  white 90deg,  white 90deg,  white 180deg, white 180deg, white 270deg, #6f6fff 270deg);
+    border-radius: 50%;
+    position: relative;
+    animation: load 0.3s ease infinite;
+}
+
+@keyframes load {
+    from {
+        transform: rotate(0deg);
+    }to{
+        transform: rotate(360deg);
+    }
+}
+
+.btn .loading::after{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    content: "";
+    border-radius: 50%;
+    background-color: #6f6fff;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .container {
+            overflow: hidden;
+        }
+    
+    .container .strip {
+        width: 100%;
+        height: max-content;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .container .img {
+        width: 100%;
+        height: auto;
+    }
+
+    .container .strip .grp {
+        width: 100%;
+        padding: 0 20px;
+        background-color: #67a6ff;
+    }
+
+    .container .strip .grp .bc {
+        width: 40%;
+        height: auto;
+        filter: invert();
+    }
+
+    .container .main-sub {
+        width: 90%;
+    }
+
+    .container .navigation {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .container .navigation .link.sel {
+        text-wrap: nowrap;
+        word-wrap: nowrap;
+        height: max-content;
+    }
+    .filters{
+        width: 100%;
+        padding: 0 20px;
+    }
+}

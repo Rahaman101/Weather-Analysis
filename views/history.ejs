@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/style.css">
+    <title>Weather Monitor</title>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="strip">
+            <img src="./assets/01.png" alt="" class="img">
+            <div class="grp">
+                <img src="./assets/BC.png" alt="" class="bc">
+                <img src="./assets/cuny.png" alt="" class="bc">
+            </div>
+        </div>
+        <div style="padding: 20px">
+            <p class="main-title">Vignan's IIT(A) - Vizag - Weather Monitoring System</p>
+            <p class="main-sub">Live data is currently being monitored and visualized at Vignan's institute of Information and Technology (A).</p>
+            <div class="navigation" id="navigation">
+                <a href="/" class="link">Live Forecast</a>
+                <a href="/history" class="link sel">History</a>
+                <a class="link" id="auth"></a>
+            </div>
+            <div id="weather-render">
+                <div class="rrGrid hist" id="filter">
+                    <div class="filters">
+                        <p class="main-title" style="margin-top: 40px; margin-bottom: 10px; font-size:15px">Filters</p>
+                        <div class="filter" style="border: 1px solid var(--bg-col); border-radius: 5px;">
+                            <div class="wrap">
+                                <label for="" class="lab">Start Date</label>
+                                <input type="date" id="sd" placeholder="Start date" class="inp">
+                            </div>
+                            <div class="wrap">
+                                <label for="" class="lab">End Date</label>
+                                <input type="date" id="dd" placeholder="End date" class="inp">
+                            </div>
+                            <p class="sub" id="sub"></p>
+                            <button id="req" class="btn" style="margin: 0; margin-top: 10px;">
+                                Filter Data
+                            </button>
+                            <button id="download" class="btn sec" style="margin: 0; margin-top: 10px">Download</button>
+                        </div>
+                    </div>
+                    <div style="width: 100%; height: max-content; overflow-x: scroll">
+                        <p class="main-title" style="margin-top: 40px; margin-bottom: 10px; font-size:15px">Vignan's WMS - History Data</p>
+                        <div class="dummy" id="dummy">
+                            <div class="loader" id="loader"></div>
+                            <p class="ldt">Loading Data</p>
+                        </div>
+                        <table class="table" id="prim">
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="col">
+                <p class="ftitle" style="margin-bottom: 5px; font-size: 20px; font-weight: 800;">Vignan X BCC X CUNY</p>
+                <p class="ftitle">Vignan's IIT(A) - Vizag - Weather Monitoring System</p>
+                <p class="sub">A weather monitoring system for multi-purpose applications with historic data.</p>
+            </div>
+            <div class="col">
+                <p class="ftitle">Usefull links</p>
+                <a href="#" class="link">Data Visualizations</a>
+                <a href="#filter" class="link">Download Data</a>
+                <a href="#filter" class="link">Privacy Policy</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Sponsors</p>
+                <a href="https://www.bcc.cuny.edu/" class="link">Bronx Community College</a>
+                <a href="https://www.cuny.edu/" class="link">The City university of New York</a>
+                <a href="/" class="link">Weather Link Live</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Developers</p>
+                <a href="#" class="link">Chandra Sidhardha Baggu(AI&DS)</a>
+                <a href="#" class="link">Miazur Rahman Mohmmad(AI&DS)</a>
+                <a href="#" class="link">Narendra Neeraj Konada (AI&DS)</a>
+                <a href="#" class="link">Druva Tarak Karri(AI&DS)</a>
+                <a href="#" class="link">Vishnu Vardhan Rongali(AI&DS)</a>
+            </div>
+            <div class="col">
+                <p class="ftitle">Contact us</p>
+                <textarea name="" placeholder="Your Feedback..." class="txtArea" rows="5"></textarea>
+                <div class="row">
+                    <input type="email" class="inp" placeholder="Your Email">
+                    <button class="btn">Send</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
+    <script>
+        const table = document.getElementById('prim');
+        const startDate = document.getElementById("sd");
+        const endDate = document.getElementById("dd");
+        let weatherData = []; 
+
+        function clearTable() {
+            while (table.rows.length > 0) {
+                table.deleteRow(0);
+            }
+        }
+
+        document.getElementById("req").addEventListener("click", () => {
+            clearTable();
+            getCurrentData(startDate.value, endDate.value); 
+        });
+
+        function flattenObject(obj, prefix = '') {
+            let result = {};
+            for (const [key, value] of Object.entries(obj)) {
+                const newKey = prefix ? `${prefix}.${key}` : key;
+                if (typeof value === 'object' && value !== null) {
+                    Object.assign(result, flattenObject(value, newKey));
+                } else {
+                    result[newKey] = value;
+                }
+            }
+            return result;
+        }
+
+        function createTableRows(data) {
+            const flatData = flattenObject(data);
+
+            delete flatData['_id'];
+            
+            if (table.rows.length === 0) {
+                const headerRow = document.createElement('tr');
+                headerRow.className = 'row';
+                for (const key of Object.keys(flatData)) {
+                    const headCell = document.createElement('th');
+                    headCell.className = 'head';
+                    headCell.textContent = key.split(".")[1].split("_").join(" ");
+                    headerRow.appendChild(headCell);
+                }
+                table.appendChild(headerRow);
+            }
+
+            const dataRow = document.createElement('tr');
+            dataRow.className = 'row';
+            for (const value of Object.values(flatData)) {
+                const dataCell = document.createElement('th');
+                dataCell.className = 'data';
+                dataCell.textContent = value != null ? value : 0;
+                dataRow.appendChild(dataCell);
+            }
+            table.appendChild(dataRow);
+        }
+ 
+        const getCurrentData = async(start, end) => {
+            try {
+                document.getElementById("loader").classList.remove("hide")
+                document.getElementById("dummy").classList.remove("hide")
+                const response = await axios.get(`/api/history/${start}/${end}`, {
+                    headers: {token: window.localStorage.getItem("token")}
+                }).catch(e => {
+                    document.getElementById("dummy").textContent = "Server timeout, Please try again"
+                });
+                weatherData = response.data;
+                if(response.status == 200){  
+                    document.getElementById("loader").classList.add("hide")
+                    document.getElementById("dummy").classList.add("hide");
+                    console.log(response)
+                    response?.data.data.forEach((data, i) => {
+                        if(i < 10){
+                            createTableRows(data);
+                        }
+                    });
+                }                    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        function downloadJSON(data, filename) {
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        document.getElementById("download").addEventListener("click", () => {
+            downloadJSON(weatherData, "weather_data.json");
+        });
+
+        window.addEventListener("load", () => {
+            const startDate = (new Date()).toISOString().split("T")[0].split("-").map((item, i) => {
+                if(i == 2){
+                    console.log(item);
+                    let date = (parseInt(item) - 1);
+                    if(date < 9){
+                        date = "0" + date;
+                        return date;
+                    }else{
+                        return date;
+                    }
+                }else{
+                    return item;
+                }
+            }).join("-");
+            const endDate = (new Date()).toISOString().split("T")[0];
+            let token = window.localStorage.getItem("token");
+            if(token != null){
+                getCurrentData(startDate, endDate);
+            }else{
+                document.getElementById("dummy").textContent = "Session logged out!"
+            }
+        });
+    </script>
+
+    <!-- navigation -->
+    <script>
+        const navigation = document.getElementById("navigation");
+        const dashboard = document.getElementById("weather-render");
+        const blog = document.getElementById("blog")
+        const links = navigation.querySelectorAll(".link");
+
+        const auth = document.getElementById("auth");
+        const token = window.localStorage.getItem("token");
+        if(token == null || token == ""){
+            auth.setAttribute("href", "/login");
+            auth.textContent = "Login"
+        }else{
+            auth.textContent = "Logout";
+            auth.onclick = () => {
+                window.localStorage.removeItem("token");
+                setTimeout(() => {
+                    window.location.href = "/login"
+                }, 1000)
+            }
+        }
+
+        links.forEach((link) => {
+            link.addEventListener("click", (e) => {
+                links.forEach((l) => l.classList.remove("sel"));
+                const selected = e.target.textContent;
+                link.classList.add("sel");
+
+                switch (selected.toLowerCase()) {
+                    case "blog":
+                        dashboard.style.display = "none";
+                        blog.style.display = "flex";
+                        break;
+                    
+                    case "live forecast":
+                        blog.style.display = "none";
+                        dashboard.style.display = "grid";
+                        break;
+                
+                    case "download":
+                        blog.style.display = "none";
+                        dashboard.style.display = "grid";
+                        break;
+                
+                    default:
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
