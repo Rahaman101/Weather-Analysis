@@ -22,5 +22,5 @@
 - Node.js (for frontend development)
 
 ```bash
-git clone [https://github.com/yourusername/weather-link.git](https://github.com/Rahaman101/Weather-Analysis)
+git clone [https://github.com/Rahaman101/Weather-Analysis]
 cd Weather-Analysis
