@@ -1,4 +1,4 @@
-# Weather-Link
+# Weather-Analysis
 
 **Weather-Link** is a project designed to scrape weather data from the Weather Link website, gather data from weather equipment, store the information in MongoDB, and display it on a website. The data is visualized in various graphs for each category, providing users with a comprehensive view of weather conditions.
 
